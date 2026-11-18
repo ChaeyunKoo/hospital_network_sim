@@ -1,0 +1,18 @@
+(hybrid.py, step5_실행결과.txt 참고)
+
+* A: General 트래픽 때문에 Alarm과 ECG도 큰 지연과 손실 경험
+* B: QoS 덕분에 Alarm과 ECG의 지연은 크게 감소했지만, 손실은 여전히 발생
+* C/D: General을 별도 경로로 분리하자 Alarm과 ECG의 손실이 사라지고 지연이 낮아짐
+L 이때 Hybrid의 개선에는 경로 분리뿐만 아니라 전체 전송 용량 증가 효과도 포함되어 있음
+
+* C와 D의 결과가 동일한 이유?
+L 현재 ECG 장치가 10대뿐이어서 Critical 경로가 거의 혼잡하지 않기 때문
+=> 즉 대부분의 패킷이 기다리지 않고 바로 전송되므로 FIFO(C)와 QoS(D)의 차이가 거의 X
+
+<STEP 5 정리>
+* Alarm과 ECG를 Critical 경로로 전달
+* General을 Wi-Fi 경로로 전달
+* 각 경로에서 독립적으로 패킷 처리
+* Hybrid 환경에서 FIFO와 QoS 선택 가능
+=> STEP5의 기본 구현까지는 완료 
+but 비선점 우선순위가 정확히 동작하는지, 경로별 패킷이 올바르게 분리되는지에 대한 검증 테스트 필요

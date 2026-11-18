@@ -1,4 +1,3 @@
-
 import simpy
 
 from traffic import (
@@ -7,7 +6,7 @@ from traffic import (
     generate_general
 )
 from network import FIFO_Network, QoS_Network
-
+from hybrid import Hybrid_Network
 
 SIM_TIME = 300.0
 GENERAL_LOAD = 13  # 혼잡 조건(13Mbps)
@@ -51,7 +50,9 @@ def main():
 
     for name, network_class in [
         ("A: FIFO", FIFO_Network),
-        ("B: QoS", QoS_Network)
+        ("B: QoS", QoS_Network),
+        ("C: Hybrid + FIFO", lambda env, rate_mbps=10: Hybrid_Network(env, use_qos=False)),
+        ("D: Hybrid + QoS", lambda env, rate_mbps=10: Hybrid_Network(env, use_qos=True))
     ]:
         received, dropped, avg_delay, received_packets, dropped_packets = run_scenario(
             network_class, packets
